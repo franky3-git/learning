@@ -1,7 +1,6 @@
 import React from 'react';
 
-const Header = () => {
-	const title = 'Grocery list';
+const Header = ({title}) => {
 	
 	return (
 		<header>
