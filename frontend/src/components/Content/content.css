@@ -1,0 +1,12 @@
+.list-item {
+	width: 500px;
+	list-style: none;
+}
+.item {
+	display: flex;
+	margin-bottom: 15px;
+}
+.btn-delete {
+	cursor: pointer;
+	font-size: 1.2rem;
+}
