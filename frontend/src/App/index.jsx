@@ -2,30 +2,14 @@ import {useState} from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Main from '../components/Main';
+import datas from '../datas/items';
 
 //import css
 import './app.css';
 
 const App = () => {
 	const title = 'Grocery';
-	
-	const [items, setItems] = useState(JSON.parse(localStorage.getItem('grocerylist')) ||[
-		{
-			id: 1,
-			checked: false,
-			item: "One half pound bag of cocoa covered almonds unsolved"
-		},
-		{
-			id: 2,
-			checked: false,
-			item: "item 2"
-		},
-		{
-			id: 3,
-			checked: true,
-			item: "item 3"
-		},
-	]);
+	const [items, setItems] = useState(JSON.parse(localStorage.getItem('grocerylist')) || datas)
 	
 	const handleChangeCheckedItem = (id) => {
 		const listItem = items.map(item => item.id === id ? {...item, checked: !item.checked} : item)
