@@ -10,6 +10,7 @@ import './app.css';
 const App = () => {
 	const title = 'Grocery';
 	const [items, setItems] = useState(JSON.parse(localStorage.getItem('grocerylist')) || datas)
+	const [inputValue, setInputValue] = useState('');
 	
 	const handleChangeCheckedItem = (id) => {
 		const listItem = items.map(item => item.id === id ? {...item, checked: !item.checked} : item)
@@ -26,12 +27,27 @@ const App = () => {
 			alert('canceled deletion')
 		}
 	}
+	
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		if(inputValue.trim() === "") {
+			alert('Input cannot be empty')
+			return;
+		}
+	
+		console.log(inputValue)
+		const listItems = [...items, {id: new Date().getTime(), item: inputValue, checked: false}]
+		setItems(listItems)
+		localStorage.setItem('grocerylist', JSON.stringify(listItems))
+		
+		setInputValue('')
+	}
 			
 	return (
 		
 		<div className="app">
 			<Header title={title}></Header>
-			<Main items={items} handleChangeCheckedItem={handleChangeCheckedItem} handleDeleteItem={handleDeleteItem} setItems={setItems}></Main>
+			<Main items={items} handleChangeCheckedItem={handleChangeCheckedItem} handleDeleteItem={handleDeleteItem} setItems={setItems} handleSubmit={handleSubmit} inputValue={inputValue} setInputValue={setInputValue}></Main>
 			<Footer items={items}></Footer>
 		</div>	
 	)

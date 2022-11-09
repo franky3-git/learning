@@ -1,22 +1,6 @@
 import {useState} from 'react';
 
-const Form = ({setItems, items}) => {
-	const [inputValue, setInputValue] = useState('');
-	 
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		if(inputValue.trim() === "") {
-			alert('Input cannot be empty')
-			return;
-		}
-	
-		console.log(inputValue)
-		const listItems = [...items, {id: new Date().getTime(), item: inputValue, checked: false}]
-		setItems(listItems)
-		localStorage.setItem('grocerylist', JSON.stringify(listItems))
-		
-		setInputValue('')
-	}
+const Form = ({handleSubmit, inputValue, setInputValue}) => {
 	
 	return (
 		<form style={{width: 500, padding: 10}} onSubmit={handleSubmit}>

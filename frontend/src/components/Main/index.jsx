@@ -1,11 +1,11 @@
 import Content from '../Content';
 import Form from '../Form';
 
-const Main = ({items, handleDeleteItem, handleChangeCheckedItem, setItems}) => {
+const Main = ({items, handleDeleteItem, handleChangeCheckedItem, setItems, inputValue, setInputValue, handleSubmit}) => {
 	
 	return (
 		<main>
-			<Form setItems={setItems} items={items}></Form>
+			<Form inputValue={inputValue} setInputValue={setInputValue} handleSubmit={handleSubmit}></Form>
 			<Content items={items} handleChangeCheckedItem={handleChangeCheckedItem} handleDeleteItem={handleDeleteItem}></Content>
 		</main>
 	)
