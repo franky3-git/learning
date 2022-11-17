@@ -2,6 +2,7 @@ import {useState, useEffect} from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Main from '../components/Main';
+import Modal from '../components/Modal';
 import datas from '../datas/items';
 
 //import css
@@ -13,10 +14,18 @@ const App = () => {
 	const [inputValue, setInputValue] = useState('');
 	const [inputShowing, setInputShowing] = useState(true);
 	const [searchWord, setSearchWord] = useState('')
+	const [showModal, setShowModal] = useState(false)
+	const [modalMessage, setModalMessage] = useState('')
+
+	const openModalAndSetMessage = (message) => {
+		setShowModal(true)
+		setModalMessage(message)
+	}
 	
 	const saveList = (listItem) => {
 		setItems(listItem)
 		localStorage.setItem('grocerylist', JSON.stringify(listItem))
+		
 	}
 	
 	const handleChangeCheckedItem = (id) => {
@@ -28,23 +37,22 @@ const App = () => {
 		if(window.confirm('Are you sure you want to delete this item?')) {
 			const listItem = items.filter(item => item.id !== id);
 			saveList(listItem)
+			openModalAndSetMessage('item deleted')
 		} else {
-			alert('canceled deletion')
+			openModalAndSetMessage('deletion canceled')
 		}
 	}
-	
-	
 	
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		if(inputValue.trim() === "") {
-			alert('Input cannot be empty')
+			openModalAndSetMessage('Input cannot be empty')
 			return;
 		}
 
 		const listItems = [...items, {id: new Date().getTime(), item: inputValue, checked: false}]
 		saveList(listItems)
-		
+		openModalAndSetMessage('item added')
 		setInputValue('')
 	}
 	
@@ -62,6 +70,10 @@ const App = () => {
 		
 		setInputShowing(!inputShowing)
 	}
+
+	const closeModal = () => {
+		setShowModal(false)
+	}
 			
 	
 	useEffect(() => {
@@ -71,7 +83,9 @@ const App = () => {
 	return (
 		
 		<div className="app">
+			{showModal && <Modal message={modalMessage} closeModal={closeModal} />}
 			<Header title={title}></Header>
+			
 			<Main items={items} handleChangeCheckedItem={handleChangeCheckedItem} handleDeleteItem={handleDeleteItem} setItems={setItems} handleSubmit={handleSubmit} inputValue={inputValue} setInputValue={setInputValue} inputShowing={inputShowing} setInputShowing={setInputShowing} searchWord={searchWord} setSearchWord={setSearchWord} changeInput={changeInput} handleSearch={handleSearch}></Main>
 			<Footer items={items}></Footer>
 		</div>	
@@ -80,10 +94,7 @@ const App = () => {
 
 export default App;
 
-const testArray = ['first element', 'second element', 'third element']
-const testString = 'this is my string'
 
-console.log(testArray.filter(elem => elem.includes('')))
 
 
 
