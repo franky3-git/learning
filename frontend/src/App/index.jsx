@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Main from '../components/Main';
@@ -11,22 +11,29 @@ const App = () => {
 	const title = 'Grocery';
 	const [items, setItems] = useState(JSON.parse(localStorage.getItem('grocerylist')) || datas)
 	const [inputValue, setInputValue] = useState('');
+	const [inputShowing, setInputShowing] = useState(true);
+	const [searchWord, setSearchWord] = useState('')
+	
+	const saveList = (listItem) => {
+		setItems(listItem)
+		localStorage.setItem('grocerylist', JSON.stringify(listItem))
+	}
 	
 	const handleChangeCheckedItem = (id) => {
 		const listItem = items.map(item => item.id === id ? {...item, checked: !item.checked} : item)
-		setItems(listItem)
-		localStorage.setItem('grocerylist', JSON.stringify(listItem))
+		saveList(listItem)
 	}
 	
 	const handleDeleteItem = (id) => {
 		if(window.confirm('Are you sure you want to delete this item?')) {
 			const listItem = items.filter(item => item.id !== id);
-			setItems(listItem)
-			localStorage.setItem('grocerylist', JSON.stringify(listItem))
+			saveList(listItem)
 		} else {
 			alert('canceled deletion')
 		}
 	}
+	
+	
 	
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -34,26 +41,49 @@ const App = () => {
 			alert('Input cannot be empty')
 			return;
 		}
-	
-		console.log(inputValue)
+
 		const listItems = [...items, {id: new Date().getTime(), item: inputValue, checked: false}]
-		setItems(listItems)
-		localStorage.setItem('grocerylist', JSON.stringify(listItems))
+		saveList(listItems)
 		
 		setInputValue('')
 	}
+	
+	const handleSearch = () => {
+		const listItem = items.filter(item => item.item.includes(searchWord))
+		if(searchWord === '') {
+			setItems(JSON.parse(localStorage.getItem('grocerylist')) )
+		} else {
+			setItems(listItem)
+		}
+	}
+	
+	const changeInput = (e) => {
+		e.preventDefault()
+		
+		setInputShowing(!inputShowing)
+	}
 			
+	
+	useEffect(() => {
+		handleSearch()
+	}, [searchWord])
+	
 	return (
 		
 		<div className="app">
 			<Header title={title}></Header>
-			<Main items={items} handleChangeCheckedItem={handleChangeCheckedItem} handleDeleteItem={handleDeleteItem} setItems={setItems} handleSubmit={handleSubmit} inputValue={inputValue} setInputValue={setInputValue}></Main>
+			<Main items={items} handleChangeCheckedItem={handleChangeCheckedItem} handleDeleteItem={handleDeleteItem} setItems={setItems} handleSubmit={handleSubmit} inputValue={inputValue} setInputValue={setInputValue} inputShowing={inputShowing} setInputShowing={setInputShowing} searchWord={searchWord} setSearchWord={setSearchWord} changeInput={changeInput} handleSearch={handleSearch}></Main>
 			<Footer items={items}></Footer>
 		</div>	
 	)
 }
 
 export default App;
+
+const testArray = ['first element', 'second element', 'third element']
+const testString = 'this is my string'
+
+console.log(testArray.filter(elem => elem.includes('')))
 
 
 
