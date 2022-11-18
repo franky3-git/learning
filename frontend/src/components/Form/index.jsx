@@ -10,7 +10,7 @@ const Form = ({handleSubmit, inputValue, setInputValue, inputShowing, setInputSh
 			{inputShowing ? 
 			(<div className="mb-3">
 				<label htmlFor="input-description">Description item</label>
-				<input className="form-control" type="text"  required autoFocus id="input-description" onChange={(e) => setInputValue(e.target.value)} value={inputValue} />
+				<input className="form-control" type="text" autoFocus id="input-description" onChange={(e) => setInputValue(e.target.value)} value={inputValue} />
 			</div>) : 
 			(<div className="mb-3">
 				<label htmlFor="input-search">Search a specific item</label>

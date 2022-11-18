@@ -1,0 +1,20 @@
+.custommodal {
+    width: 300px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: rgb(255, 233, 30);
+    color: rgb(19, 16, 16);
+    position: fixed;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* visibility: hidden; */
+    transition: visibility 300ms;
+}
+.custommodal.open {
+    visibility: visible;
+}
