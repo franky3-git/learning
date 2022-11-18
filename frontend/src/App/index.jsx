@@ -49,7 +49,7 @@ const App = () => {
 	}
 	
 	const handleSearch = () => {
-		const listItem = items.filter(item => item.item.includes(searchWord))
+		const listItem = items.filter(item => item.item.toLowerCase().includes(searchWord.toLowerCase()))
 		if(searchWord === '') {
 			setItems(JSON.parse(localStorage.getItem('grocerylist')) )
 		} else {
@@ -80,10 +80,6 @@ const App = () => {
 
 export default App;
 
-const testArray = ['first element', 'second element', 'third element']
-const testString = 'this is my string'
-
-console.log(testArray.filter(elem => elem.includes('')))
 
 
 
