@@ -1,4 +1,4 @@
-export default {
+const colors = {
 "Abricot": "#E67E30",	
 "Acajou": "#88421D",
 "Aigue-marine":	"#79F8F8",
@@ -191,3 +191,12 @@ Vermillon:	 	"#DB1702",
 "Viride": "#40826D"	,
 "Zinzolin":	"#6C0277"	
 }
+
+const arrayColors = [];
+let i = 0;
+for(let  prop in colors) {
+	arrayColors[i] = {name: prop.toLowerCase(), color: colors[prop]}
+	i++;
+}
+
+export default arrayColors
