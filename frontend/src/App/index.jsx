@@ -10,12 +10,16 @@ import './app.css';
 
 const App = () => {
 	const title = 'Grocery';
-	const [items, setItems] = useState(JSON.parse(localStorage.getItem('grocerylist')) || datas)
+	const [items, setItems] = useState([]);
 	const [inputValue, setInputValue] = useState('');
 	const [inputShowing, setInputShowing] = useState(true);
-	const [searchWord, setSearchWord] = useState('')
-	const [showModal, setShowModal] = useState(false)
-	const [modalMessage, setModalMessage] = useState('')
+	const [searchWord, setSearchWord] = useState('');
+	const [showModal, setShowModal] = useState(false);
+	const [modalMessage, setModalMessage] = useState('');
+	
+	useEffect(() => {
+		setItems(JSON.parse(localStorage.getItem('grocerylist')) || datas)
+	}, [])
 
 	const openModalAndSetMessage = (message) => {
 		setShowModal(true)
@@ -56,14 +60,6 @@ const App = () => {
 		setInputValue('')
 	}
 	
-	const handleSearch = () => {
-		const listItem = items.filter(item => item.item.toLowerCase().includes(searchWord.toLowerCase()))
-		if(searchWord === '') {
-			setItems(JSON.parse(localStorage.getItem('grocerylist')) )
-		} else {
-			setItems(listItem)
-		}
-	}
 	
 	const changeInput = (e) => {
 		e.preventDefault()
@@ -76,25 +72,19 @@ const App = () => {
 	}
 			
 	
-	useEffect(() => {
-		handleSearch()
-	}, [searchWord])
-	
 	return (
 		
 		<div className="app">
 			{showModal && <Modal message={modalMessage} closeModal={closeModal} />}
 			<Header title={title}></Header>
 			
-			<Main items={items} handleChangeCheckedItem={handleChangeCheckedItem} handleDeleteItem={handleDeleteItem} setItems={setItems} handleSubmit={handleSubmit} inputValue={inputValue} setInputValue={setInputValue} inputShowing={inputShowing} setInputShowing={setInputShowing} searchWord={searchWord} setSearchWord={setSearchWord} changeInput={changeInput} handleSearch={handleSearch}></Main>
+			<Main items={items.filter(item => item.item.toLowerCase().includes(searchWord.toLowerCase()))} handleChangeCheckedItem={handleChangeCheckedItem} handleDeleteItem={handleDeleteItem} setItems={setItems} handleSubmit={handleSubmit} inputValue={inputValue} setInputValue={setInputValue} inputShowing={inputShowing} setInputShowing={setInputShowing} searchWord={searchWord} setSearchWord={setSearchWord} changeInput={changeInput} ></Main>
 			<Footer items={items}></Footer>
 		</div>	
 	)
 }
 
 export default App;
-
-
 
 
 
